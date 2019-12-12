@@ -1,8 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function Form({ addTeammate }) {
-  const [teammate, setTeammate] = useState({
+function Form({ addNewMember, memberToEdit, setMemberToEdit }) {
+  const [member, setMember] = useState({
     name: "",
     email: "",
     team: "",
@@ -10,41 +10,48 @@ function Form({ addTeammate }) {
     hired: false
   });
   const handleChange = event => {
-    const value =
-      event.target.type === "checkbox"
-        ? event.target.checked
-        : event.target.value;
-    console.log(value);
-    setTeammate({ ...teammate, [event.target.name]: value });
-    console.log(teammate);
+    // const value =
+    //   event.target.type === "checkbox"
+    //     ? event.target.checked
+    //     : event.target.value;
+    // console.log(value);
+    setMember({ ...member, [event.target.name]: event.target.value });
+    console.log(member);
   };
-  const submitThis = event => {
+
+  const submitThisForm = event => {
     event.preventDefault();
-    addTeammate(teammate);
-    setTeammate({ name: "", email: "", team: "", role2: "", hired: false });
+    addNewMember(member);
+    setMember({ name: "", email: "", team: "", role2: "", hired: false });
   };
+
+  useEffect(() => {
+    setMember(memberToEdit);
+  }, [memberToEdit]);
+
+  //This is our form
   return (
-    <form onSubmit={submitThis}>
+    <form onSubmit={submitThisForm}>
       <label htmlFor="name">Name</label>
       <input
         name="name"
         type="text"
         onChange={handleChange}
-        value={teammate.name}
+        value={member.name}
       />
       <label htmlFor="email">Email</label>
       <input
         name="email"
         type="text"
         onChange={handleChange}
-        value={teammate.email}
+        value={member.email}
       />
       <label htmlFor="team">Current Team</label>
       <input
         name="team"
         type="text"
         onChange={handleChange}
-        value={teammate.team}
+        value={member.team}
       />
       <label htmlFor="role2">Current Role</label>
       <select name="role2" onChange={handleChange}>
@@ -54,13 +61,13 @@ function Form({ addTeammate }) {
         <option value="Full-Stack">Full Stack</option>
       </select>
 
-      <label htmlFor="hired">Employed</label>
+      {/* <label htmlFor="hired">Employed</label>
       <input
         type="checkbox"
         name="hired"
         checked={teammate.hired}
         onChange={handleChange}
-      />
+      /> */}
 
       <button type="submit">Create</button>
     </form>

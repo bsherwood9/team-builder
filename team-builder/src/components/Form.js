@@ -1,14 +1,24 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-function Form({ addNewMember, memberToEdit, setMemberToEdit }) {
-  const [member, setMember] = useState({
+function Form({
+  addNewMember,
+  memberToEdit,
+  editState,
+  members,
+  setMembers,
+  setEditState
+}) {
+  const initialState = {
     name: "",
     email: "",
     team: "",
-    role2: "",
-    hired: false
+    role2: ""
+  };
+  const [member, setMember] = useState({
+    initialState
   });
+  //This is what happens when we change an input
   const handleChange = event => {
     // const value =
     //   event.target.type === "checkbox"
@@ -21,14 +31,23 @@ function Form({ addNewMember, memberToEdit, setMemberToEdit }) {
 
   const submitThisForm = event => {
     event.preventDefault();
-    addNewMember(member);
-    setMember({ name: "", email: "", team: "", role2: "", hired: false });
+    addNewMember(member); //
+    setMember(initialState);
   };
 
   useEffect(() => {
     setMember(memberToEdit);
-  }, [memberToEdit]);
-
+    console.log("These memberToEdit", memberToEdit);
+    const result = members.filter(
+      item =>
+        item.email !== memberToEdit.email ||
+        item.name !== memberToEdit.name ||
+        item.team !== memberToEdit.team ||
+        item.role2 !== memberToEdit.role2
+    );
+    setMembers(result);
+    setEditState(false);
+  }, [editState]);
   //This is our form
   return (
     <form onSubmit={submitThisForm}>

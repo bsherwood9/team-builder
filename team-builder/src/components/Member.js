@@ -1,7 +1,6 @@
 import React from "react";
 
-function Member({ members, setMemberToEdit, editMember }) {
-  console.log("members", members);
+function MemberList({ members, setEditState, editMember }) {
   return (
     <div>
       {members.map(person => (
@@ -10,11 +9,17 @@ function Member({ members, setMemberToEdit, editMember }) {
           <p>{person.email}</p>
           <p>{person.team}</p>
           <p>{person.role2}</p>
-          <p>{person.hired}</p>
-          <button onClick={() => editMember(person)}>Edit</button>
+          <button
+            onClick={() => {
+              editMember(person);
+              setEditState(true);
+            }}
+          >
+            Edit
+          </button>
         </div>
       ))}
     </div>
   );
 }
-export default Member;
+export default MemberList;
